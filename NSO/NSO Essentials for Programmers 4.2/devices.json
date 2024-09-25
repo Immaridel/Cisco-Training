@@ -1,0 +1,38 @@
+// https://10.0.0.102:8443/restconf/data/tailf-ncs:devices/device/?fields=name
+// KEY:  Answer=application/yang-data+json
+
+{
+    "tailf-ncs:device": [
+        {
+            "name": "CE11"
+        },
+        {
+            "name": "CE12"
+        },
+        {
+            "name": "CE21"
+        },
+        {
+            "name": "CE31"
+        },
+        {
+            "name": "PE11"
+        },
+        {
+            "name": "PE12"
+        },
+        {
+            "name": "PE21"
+        },
+        {
+            "name": "PE31"
+        },
+        {
+            "name": "SW31"
+        },
+        {
+            "name": "SW32"
+        }
+    ]
+}
+

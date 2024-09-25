@@ -1,0 +1,47 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0"
+                 servicepoint="vlan">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+  <!-- DEVICE -->
+    <device>
+      <name>{/device}</name>
+      <config>
+        <!-- IOS -->
+        <vlan xmlns="urn:ios">
+          <vlan-list>
+            <id>102</id>
+          </vlan-list>
+        </vlan>
+        <interface xmlns="urn:ios">
+          <FastEthernet>
+            <name>0/0</name>
+            <switchport>
+              <mode>
+                <access/>
+              </mode>
+              <access>
+                <vlan>102</vlan>
+              </access>
+            </switchport>
+          </FastEthernet>
+        </interface>
+        <!-- NX-OS -->
+        <vlan xmlns="http://tail-f.com/ned/cisco-nx">
+          <vlan-list>
+            <id>102</id>
+          </vlan-list>
+        </vlan>
+        <interface xmlns="http://tail-f.com/ned/cisco-nx">
+          <Ethernet>
+            <name>1/1</name>
+            <switchport>
+              <mode>access</mode>
+              <access>
+                <vlan>102</vlan>
+              </access>
+            </switchport>
+          </Ethernet>
+        </interface>
+      </config>
+    </device>
+  </devices>
+</config-template>

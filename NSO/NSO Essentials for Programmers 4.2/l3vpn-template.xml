@@ -1,0 +1,190 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0" servicepoint="l3vpn">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+    <!-- DEVICE -->
+    <?foreach {/link}?>
+      <device>
+        <name>{pe-device}</name>
+        <config>
+
+          <!-- IOS -->
+          <vrf xmlns="urn:ios">
+            <definition>
+              <name>vpn{string(../vpn-id)}</name>
+              <description>By NSO: L3VPN - {string(/customer)}</description>
+              <rd>1:{string(../vpn-id)}</rd>
+              <route-target>
+                <export>
+                  <asn-ip>1:{string(../vpn-id)}</asn-ip>
+                </export>
+                <import>
+                  <asn-ip>1:{string(../vpn-id)}</asn-ip>
+                </import>
+              </route-target>
+            </definition>
+          </vrf>
+          <?if {routing-protocol='static'}?>
+            <ip xmlns="urn:ios">
+              <route>
+                <vrf>
+                  <name>vpn{string(../vpn-id)}</name>
+                  <?foreach {static-route}?>
+                    <ip-route-forwarding-list>
+                      <prefix>{prefix}</prefix>
+                      <mask>{mask}</mask>
+                      <forwarding-address>172.31.{../link-id}.2</forwarding-address>
+                    </ip-route-forwarding-list>
+                  <?end?>
+                </vrf>
+              </route>
+            </ip>
+          <?end?>
+          <interface xmlns="urn:ios">
+            <GigabitEthernet>
+              <name>{interface}</name>
+              <description>By NSO: L3VPN - {string(/customer)} - {string(link-name)}</description>
+              <vrf>
+                <forwarding>vpn{string(../vpn-id)}</forwarding>
+              </vrf>
+              <ip>
+                <address>
+                  <primary>
+                    <address>172.31.{link-id}.1</address>
+                    <mask>255.255.255.252</mask>
+                  </primary>
+                </address>
+              </ip>
+            </GigabitEthernet>
+          </interface>
+          <router xmlns="urn:ios">
+            <?if {routing-protocol='bgp'}?>
+              <bgp>
+                <as-no>1</as-no>
+                <address-family>
+                  <with-vrf>
+                    <ipv4>
+                      <af>unicast</af>
+                      <vrf>
+                        <name>vpn{string(../vpn-id)}</name>
+                        <redistribute>
+                          <connected/>
+                          <static/>
+                        </redistribute>
+                        <neighbor>
+                          <id>172.31.{link-id}.2</id>
+                          <remote-as annotation="first">65001</remote-as>
+                          <activate/>
+                          <allowas-in/>
+                          <as-override>
+                            <disable/>
+                          </as-override>
+                          <default-originate/>
+                        </neighbor>
+                      </vrf>
+                    </ipv4>
+                  </with-vrf>
+                </address-family>
+              </bgp>
+            <?end?>
+          </router>
+
+          <!-- IOS-XR -->
+          <vrf xmlns="http://tail-f.com/ned/cisco-ios-xr">
+            <vrf-list>
+              <name>vpn{string(../vpn-id)}</name>
+              <description>By NSO: L3VPN - {string(/customer)}</description>
+              <address-family>
+                <ipv4>
+                  <unicast>
+                    <import>
+                      <route-target>
+                        <address-list>
+                          <name>1:{string(../vpn-id)}</name>
+                        </address-list>
+                      </route-target>
+                    </import>
+                    <export>
+                      <route-target>
+                        <address-list>
+                          <name>1:{string(../vpn-id)}</name>
+                        </address-list>
+                      </route-target>
+                    </export>
+                  </unicast>
+                </ipv4>
+              </address-family>
+            </vrf-list>
+          </vrf>
+          <interface xmlns="http://tail-f.com/ned/cisco-ios-xr">
+            <GigabitEthernet>
+              <id>{interface}</id>
+              <description>By NSO: L3VPN - {string(/customer)} - {string(link-name)}</description>
+              <vrf>vpn{string(../vpn-id)}</vrf>
+              <ipv4>
+                <address>
+                  <ip>172.31.{link-id}.5</ip>
+                  <mask>255.255.255.252</mask>
+                </address>
+              </ipv4>
+            </GigabitEthernet>
+          </interface>
+          <router xmlns="http://tail-f.com/ned/cisco-ios-xr">
+            <?if {routing-protocol='static'}?>
+              <static>
+                <address-family>
+                  <ipv4>
+                    <unicast>
+                      <?foreach {static-route} ?>
+                        <routes>
+                          <net>{prefix}</net>
+                          <interface>{interface}</interface>
+                          <address>172.31.{../link-id}.6</address>
+                        </routes>
+                      <?end?>
+                    </unicast>
+                  </ipv4>
+                </address-family>
+              </static>
+            <?end?>
+            <?if {routing-protocol='bgp'}?>
+              <bgp>
+                <bgp-no-instance>
+                  <id>1</id>
+                  <vrf>
+                    <name>vpn{string(../vpn-id)}</name>
+                    <rd>1:{string(../vpn-id)}</rd>
+                    <address-family>
+                      <ipv4>
+                        <unicast>
+                          <redistribute>
+                            <connected/>
+                            <static/>
+                          </redistribute>
+                        </unicast>
+                      </ipv4>
+                    </address-family>
+                    <neighbor>
+                      <id>172.31.{link-id}.6</id>
+                      <address-family>
+                        <ipv4>
+                          <unicast>
+                            <route-policy>
+                              <direction>in</direction>
+                              <name>test</name>
+                            </route-policy>
+                            <as-override/>
+                            <default-originate/>
+                          </unicast>
+                        </ipv4>
+                      </address-family>
+                    </neighbor>
+                  </vrf>
+                </bgp-no-instance>
+              </bgp>
+            <?end?>
+          </router>
+
+        </config>
+      </device>
+    <?end?>
+  </devices>
+</config-template>

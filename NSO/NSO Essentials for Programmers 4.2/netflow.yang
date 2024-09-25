@@ -1,0 +1,35 @@
+module netflow {
+  namespace "http://cisco.com/example/netflow";
+  prefix netflow;
+
+  import ietf-inet-types {
+    prefix inet;
+  }
+  import tailf-ncs {
+    prefix ncs;
+  }
+  import tailf-common {
+    prefix tailf;
+  }
+  augment /ncs:services {
+    list netflow {
+      description "Export NetFlow service";
+      key device;
+
+      uses ncs:service-data;
+      ncs:servicepoint "netflow";
+
+      leaf device {
+        tailf:info "Device to export NetFlow data from";
+        type leafref {
+          path "/ncs:devices/ncs:device/ncs:name";
+        }
+      }
+
+      leaf destination {
+        tailf:info "Address to export NetFlow data to";
+        type inet:ipv4-address;
+      }
+    }
+  }
+}

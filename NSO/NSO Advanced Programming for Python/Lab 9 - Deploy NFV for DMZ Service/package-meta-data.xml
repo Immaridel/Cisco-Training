@@ -1,0 +1,25 @@
+<ncs-package xmlns="http://tail-f.com/ns/ncs-packages">
+    <name>dmz</name>
+    <package-version>1.0</package-version>
+    <description>Generated Python package</description>
+    <ncs-min-version>5.3</ncs-min-version>
+  
+    <required-package>
+      <name>tailf-etsi-rel2-nfvo</name>
+    </required-package>
+  
+    <required-package>
+      <name>router</name>
+    </required-package>
+  
+    <required-package>
+      <name>firewall</name>
+    </required-package>
+  
+    <component>
+      <name>dmz</name>
+      <application>
+        <python-class-name>dmz.dmz.DMZ</python-class-name>
+      </application>
+    </component>
+  </ncs-package>  

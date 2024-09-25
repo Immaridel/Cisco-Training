@@ -1,0 +1,55 @@
+module router {
+  namespace "http://com/example/router";
+  prefix router;
+
+  import ietf-inet-types {
+    prefix inet;
+  }
+  import tailf-ncs {
+    prefix ncs;
+  }
+  import tailf-common {
+    prefix tailf;
+  }
+
+  grouping router {
+    list routes {
+      key "network mask";
+      min-elements 1;
+
+      leaf network {
+        type inet:ipv4-address;
+      }
+      leaf mask {
+        type inet:ipv4-address;
+      }
+      leaf gateway {
+        mandatory true;
+        type inet:ipv4-address;
+      }
+    }
+  }
+
+  augment /ncs:services {
+    list router {
+      description "This is a router service";
+
+      key name;
+
+      uses ncs:service-data;
+      ncs:servicepoint "router";
+
+      leaf name {
+        type string;
+      }
+      leaf device {
+        mandatory true;
+        type leafref {
+          path "/ncs:devices/ncs:device/ncs:name";
+        }
+      }
+
+      uses router;
+    }
+  }
+}

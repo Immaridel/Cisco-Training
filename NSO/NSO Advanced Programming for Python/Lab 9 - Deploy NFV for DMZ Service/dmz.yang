@@ -1,0 +1,152 @@
+module dmz {
+
+  namespace "http://example.com/dmz";
+  prefix dmz;
+
+  import ietf-inet-types {
+    prefix inet;
+  }
+  import tailf-common {
+    prefix tailf;
+  }
+  import tailf-ncs {
+    prefix ncs;
+  }
+  import router {
+    prefix router;
+  }
+  import firewall {
+    prefix firewall;
+  }
+
+  identity dmz {
+    base ncs:plan-component-type;
+  }
+
+  identity vnf-requested {
+    base ncs:plan-state;
+  }
+
+  identity vnf-created {
+    base ncs:plan-state;
+  }
+
+  ncs:plan-outline dmz-plan {
+    description "DMZ Plan";
+
+    ncs:component-type "ncs:self" {
+      ncs:state "ncs:init";
+      ncs:state "ncs:ready";
+    }
+    ncs:component-type "dmz:dmz" {
+      ncs:state "ncs:init";
+      ncs:state "dmz:vnf-requested" {
+        ncs:create {
+          ncs:nano-callback;
+        }
+      }
+      ncs:state "dmz:vnf-created" {
+        ncs:create {
+          ncs:pre-condition {
+            ncs:monitor "/nfvo/vnf-info/esc/vnf-deployment[tenant='admin'][deployment-name=$SERVICE/name][esc='esc0']/plan/component[name='self']/state[name='ncsLready']" {
+              ncs:trigger-expr "status = 'reached'";
+            }
+          }
+          ncs:nano-callback;
+        }
+      }
+    }
+  }
+
+  ncs:service-behavior-tree dmz-servicepoint {
+    description "DMZ behavior tree";
+    ncs:plan-outline-ref "dmz:dmz-plan";
+    ncs:selector {
+      ncs:create-component "'self'" {
+        ncs:component-type-ref "ncs:self";
+      }
+      ncs:create-component "'dmz'" {
+        ncs:component-type-ref "dmz:dmz";
+      }
+    }
+  }
+
+  augment /ncs:services {
+
+    list dmz {
+      description "This is a DMZ service";
+
+      key name;
+      leaf name {
+        type string;
+      }
+
+      uses ncs:service-data;
+      ncs:servicepoint dmz-servicepoint;
+
+      leaf csr-name {
+        config false;
+        tailf:cdb-oper {
+          tailf:persistent true;
+        }
+        type leafref {
+          path "/ncs:devices/ncs:device/ncs:name";
+        }
+      }
+
+      leaf asa-name {
+        config false;
+        tailf:cdb-oper {
+          tailf:persistent true;
+        }
+        type leafref {
+          path "/ncs:devices/ncs:device/ncs:name";
+        }
+      }
+
+      leaf csr-authgroup {
+        mandatory true;
+        type leafref {
+          path "/ncs:devices/ncs:authgroups/ncs:group/ncs:name";
+        }
+      }
+
+      leaf asa-authgroup {
+        mandatory true;
+        type leafref {
+          path "/ncs:devices/ncs:authgroups/ncs:group/ncs:name";
+        }
+      }
+
+      leaf tenant {
+        mandatory true;
+        type string;
+      }
+
+      leaf outside-net {
+        mandatory true;
+        type string;
+      }
+
+      leaf mgmt-net {
+        mandatory true;
+        type string;
+      }
+
+      leaf inside-net {
+        mandatory true;
+        type string;
+      }
+
+      container router {
+        presence "router";
+        uses router:router;
+      }
+
+      container firewall {
+        presence "firewall";
+        uses firewall:firewall;
+      }
+    }
+  }
+}

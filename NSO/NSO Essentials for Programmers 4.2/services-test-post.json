@@ -1,0 +1,19 @@
+{
+    "l3vpn:l3vpn": [
+        {
+            "vpn-name": "Test",
+            "vpn-id": 10002,
+            "link": [
+                {
+                    "link-id": 1,
+                },
+                {
+                    "link-id": 2,
+                },
+                {
+                    "link-id": 3,
+                }
+            ]
+        }
+    ]
+}

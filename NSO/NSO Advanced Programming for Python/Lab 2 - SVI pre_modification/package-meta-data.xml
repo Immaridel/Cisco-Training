@@ -1,0 +1,13 @@
+<ncs-package xmlns="http://tail-f.com/ns/ncs-packages">
+  <name>svi</name>
+  <package-version>1.0</package-version>
+  <description>SVI Python and Template Service</description>
+  <ncs-min-version>5.3</ncs-min-version>
+
+  <component>
+    <name>Switch Virtual Interface</name>
+    <application>
+      <python-class-name>svi.svi.Svi</python-class-name>
+    </application>
+  </component>
+</ncs-package>

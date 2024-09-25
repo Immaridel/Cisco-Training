@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<config-template xmlns="http://tail-f.com/ns/config/1.0" servicepoint="netflow">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+    <device>
+      <name>{/device}</name>
+      <config>
+        <ip xmlns="urn:ios">
+          <flow-export>
+            <source>
+              <GigabitEthernet>1/0</GigabitEthernet>
+            </source>
+            <?if-ned-id cisco-ios-cli-6.21:cisco-ios-cli-6.21?>
+              <version>5</version>
+              <destination>
+                <ip>{/destination}</ip>
+              </destination>
+            <?elif-ned-id cisco-ios-cli-6.85:cisco-ios-cli-6.85?>
+              <version>
+                <version>5</version>
+              </version>
+              <destination>
+                <ip>{/destination}</ip>
+                <port>2055</port>
+              </destination>
+            <?end?>
+          </flow-export>
+        </ip>
+        <interface xmlns="urn:ios">
+          <GigabitEthernet>
+            <name>1/0</name>
+          </GigabitEthernet>
+        </interface>
+      </config>
+    </device>
+  </devices>
+</config-template>

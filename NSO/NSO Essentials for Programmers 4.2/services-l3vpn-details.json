@@ -1,0 +1,44 @@
+// https://10.0.0.102:8443/restconf/data/tailf-ncs:services/l3vpn:l3vpn?fields=vpn-name;vpn-id;link
+// KEY:  Answer=application/yang-data+json
+
+{
+    "l3vpn:l3vpn": [
+        {
+            "vpn-name": "ACME",
+            "vpn-id": 10001,
+            "link": [
+                {
+                    "link-id": 1,
+                    "link-name": "Site1",
+                    "pe-device": "PE11",
+                    "interface": "0/1",
+                    "routing-protocol": "bgp"
+                },
+                {
+                    "link-id": 2,
+                    "link-name": "Site2",
+                    "pe-device": "PE21",
+                    "interface": "0/0/0/1",
+                    "routing-protocol": "bgp"
+                },
+                {
+                    "link-id": 3,
+                    "link-name": "Site3",
+                    "pe-device": "PE31",
+                    "interface": "0/1",
+                    "routing-protocol": "static",
+                    "static-route": [
+                        {
+                            "prefix": "192.168.1.0",
+                            "mask": "255.255.255.0"
+                        },
+                        {
+                            "prefix": "192.168.2.0",
+                            "mask": "255.255.255.0"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

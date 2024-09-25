@@ -1,0 +1,19 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0"
+                 servicepoint="router">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+    <device>
+      <name>{/device}</name>
+      <config>
+        <ip xmlns="urn:ios">
+          <route>
+            <ip-route-forwarding-list foreach = "{routes}">
+              <prefix>{network}</prefix>
+              <mask>{mask}</mask>
+              <forwarding-address>{gateway}</forwarding-address>
+            </ip-route-forwarding-list>
+          </route>
+        </ip>
+      </config>
+    </device>
+  </devices>
+</config-template>

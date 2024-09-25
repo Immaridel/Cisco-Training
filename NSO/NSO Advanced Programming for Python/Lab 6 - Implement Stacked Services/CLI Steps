@@ -1,0 +1,29 @@
+admin@ncs># config
+admin@ncs(config)# services dmz webservers csr-name CE31 asa-name ASA41
+admin@ncs(config)# commit
+admin@ncs(config)# services dmz webservers
+admin@ncs(config)# router routes 10.100.100.128 255.255.255.128 gateway 10.30.50.1
+admin@ncs(config)# commit
+
+admin@ncs(config)# services dmz webservers firewall access-list-rules todatabase
+Value for 'action' [deny,permit]: permit
+Value for 'direction' [in,out]: in
+Value for 'interface' [inside,management,outside]: out
+Value for 'src-ip' (<IPv4 address>): 10.100.100.128
+Value for 'src-mask' (<IPv4 address>): 255.255.255.128
+Value for 'dest-ip' (<IPv4 address>): 10.250.200.128
+Value for 'dest-mask' (<IPv4 address>): 255.255.255.128
+admin@ncs(config-access-list-rules-todatabase)# protocol tcp
+admin@ncs(config-access-list-rules-todatabase)# dest-port 1521
+admin@ncs(config-access-list-rules-todatabase)# commit dry-run outformat native
+native {
+    device {
+        name ASA41
+        data access-list todatabase "extended permit tcp 10.100.100.128 255.255.255.128  10.250.200.128 255.255.255.128 eq 1521"
+             access-group todatabase in interface outside
+    }
+}
+admin@ncs(config-access-list-rules-todatabase)# commit
+Commit complete.
+admin@ncs(config-access-list-rules-todatabase)# top
+admin@ncs(config)#

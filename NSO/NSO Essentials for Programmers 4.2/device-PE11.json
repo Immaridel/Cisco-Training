@@ -1,0 +1,610 @@
+// https://10.0.0.102:8443/restconf/data/tailf-ncs:devices/device=PE11
+// KEY:  Answer=application/yang-data+json
+
+{
+    "tailf-ncs:device": [
+        {
+            "name": "PE11",
+            "address": "127.0.0.1",
+            "port": 10022,
+            "ssh": {
+                "host-key": [
+                    {
+                        "algorithm": "ssh-rsa",
+                        "key-data": "AAAAB3NzaC1yc2EAAAADAQABAAABAQC1YHUcjDzMhJZ08GO1472lBjZkWZSULP4lIcRpYPcj\ngxRPfGPjdZws0VBFKTrs8MGeRzksIJzTRIjIrLDKOOvbXaHJqi/CEF0R1kih2jBeOtrFjIrS\nrlJegBOB8Jg3I4/fpHgPdxMN8yacPK/1a168KOnIL1ufLtWWFl3GaztiFnZfo6du1I9U2BLu\n571Y+wKV5tc2zA6GoNlbTbx3FZuIu52oT1aHoqliy90Pq1VGoRbHIN0hYPxYGz1cjTLPe4rC\nyQ4j43xIdEAXZznwJCFUWUKaSgmtqUFokeXUwW+4q3M+AUhT0kdaJqkllGTwoiIWO5qWiyZ2\nCCVqzD0H5eLR"
+                    },
+                    {
+                        "algorithm": "ssh-ed25519",
+                        "key-data": "AAAAC3NzaC1lZDI1NTE5AAAAIHbzlU97zPai/HfZCUT1BZ88/NWVs0hGlGBDBSXQOcw/"
+                    }
+                ]
+            },
+            "authgroup": "default",
+            "device-type": {
+                "cli": {
+                    "ned-id": "cisco-ios-cli-6.85:cisco-ios-cli-6.85"
+                }
+            },
+            "ssh-algorithms": {
+                "public-key": [
+                    "ssh-ed25519",
+                    "ssh-rsa"
+                ]
+            },
+            "commit-queue": {
+                "queue-length": 0
+            },
+            "active-settings": {
+                "connect-timeout": 20,
+                "read-timeout": 20,
+                "write-timeout": 20,
+                "ssh-keep-alive": {
+                    "interval": 20,
+                    "count": 3
+                },
+                "ssh-algorithms": {
+                    "public-key": [
+                        "ssh-ed25519",
+                        "ssh-rsa"
+                    ],
+                    "kex": [
+                        "curve25519-sha256",
+                        "curve25519-sha256@libssh.org",
+                        "ecdh-sha2-nistp256",
+                        "ecdh-sha2-nistp384",
+                        "curve448-sha512",
+                        "ecdh-sha2-nistp521",
+                        "diffie-hellman-group15-sha512",
+                        "diffie-hellman-group16-sha512",
+                        "diffie-hellman-group14-sha256",
+                        "diffie-hellman-group14-sha1"
+                    ],
+                    "mac": [
+                        "AEAD_AES_128_GCM",
+                        "AEAD_AES_256_GCM",
+                        "hmac-sha2-512-etm@openssh.com",
+                        "hmac-sha2-256-etm@openssh.com",
+                        "hmac-sha2-512",
+                        "hmac-sha2-256",
+                        "hmac-sha1"
+                    ],
+                    "cipher": [
+                        "aes128-gcm@openssh.com",
+                        "AEAD_AES_128_GCM",
+                        "chacha20-poly1305@openssh.com",
+                        "aes256-gcm@openssh.com",
+                        "AEAD_AES_256_GCM",
+                        "aes128-ctr",
+                        "aes192-ctr",
+                        "aes256-ctr"
+                    ],
+                    "compression": [
+                        "none",
+                        "zlib",
+                        "zlib@openssh.com"
+                    ],
+                    "dh-group": {
+                        "min-size": 1024,
+                        "preferred-size": 2048,
+                        "max-size": 8192
+                    }
+                },
+                "ned-keep-alive": {
+                    "count": 3
+                },
+                "connect-retries": {
+                    "attempts": 0,
+                    "timeout": 3
+                },
+                "trace": "false",
+                "trace-output": "file",
+                "ned-settings": {
+                    "use-junos-rollback": false
+                },
+                "commit-queue": {
+                    "enabled-by-default": false
+                },
+                "session-limits": {
+                    "max-sessions": "unlimited"
+                },
+                "session-pool": {
+                    "idle-time": 30
+                },
+                "no-overwrite": {
+                    "enabled-by-default": false
+                },
+                "lsa": {
+                    "no-overwrite": {
+                        "enabled-by-default": false
+                    }
+                },
+                "out-of-sync-commit-behaviour": "reject"
+            },
+            "state": {
+                "oper-state": "enabled",
+                "transaction-mode": "ned",
+                "last-transaction-id": "3ae1db83706b7eb3d8fe2889c5110d47",
+                "admin-state": "unlocked"
+            },
+            "capability": [
+                {
+                    "uri": "http://tail-f.com/ns/ncs-ned/cli-allow-abbrev-keys"
+                },
+                {
+                    "uri": "http://tail-f.com/ns/ncs-ned/show-partial?path-format=key-path"
+                },
+                {
+                    "uri": "http://tail-f.com/ns/ncs-ned/show-stats-path"
+                },
+                {
+                    "uri": "urn:ietf:params:netconf:capability:with-defaults:1.0?basic-mode=trim"
+                },
+                {
+                    "uri": "urn:ietf:params:xml:ns:yang:ietf-interfaces",
+                    "revision": "2014-05-08",
+                    "module": "ietf-interfaces"
+                },
+                {
+                    "uri": "urn:ietf:params:xml:ns:yang:ietf-ip",
+                    "revision": "2014-06-16",
+                    "module": "ietf-ip"
+                },
+                {
+                    "uri": "urn:ios",
+                    "revision": "2022-08-19",
+                    "module": "tailf-ned-cisco-ios"
+                },
+                {
+                    "uri": "urn:ios-stats",
+                    "revision": "2022-08-19",
+                    "module": "tailf-ned-cisco-ios-stats"
+                }
+            ],
+            "module": [
+                {
+                    "name": "ietf-interfaces",
+                    "revision": "2014-05-08"
+                },
+                {
+                    "name": "ietf-ip",
+                    "revision": "2014-06-16"
+                },
+                {
+                    "name": "tailf-ned-cisco-ios",
+                    "revision": "2022-08-19"
+                },
+                {
+                    "name": "tailf-ned-cisco-ios-stats",
+                    "revision": "2022-08-19"
+                }
+            ],
+            "platform": {
+                "name": "ios",
+                "version": "cisco-ios-6.85.2",
+                "model": "NETSIM",
+                "serial-number": "PE11"
+            },
+            "config": {
+                "tailf-ned-cisco-ios:tailfned": {
+                    "police": "cirmode"
+                },
+                "tailf-ned-cisco-ios:vrf": {
+                    "definition": [
+                        {
+                            "name": "vpn10001",
+                            "description": "By NSO: L3VPN - ACME",
+                            "rd": "1:10001",
+                            "route-target": {
+                                "export": [
+                                    {
+                                        "asn-ip": "1:10001"
+                                    }
+                                ],
+                                "import": [
+                                    {
+                                        "asn-ip": "1:10001"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "tailf-ned-cisco-ios:aaa": {
+                    "accounting": {
+                        "delay-start": {}
+                    }
+                },
+                "tailf-ned-cisco-ios:ip": {
+                    "source-route": true,
+                    "gratuitous-arps-conf": {
+                        "gratuitous-arps": false
+                    },
+                    "finger": {},
+                    "http": {
+                        "server": false,
+                        "secure-server": false
+                    }
+                },
+                "tailf-ned-cisco-ios:interface": {
+                    "Loopback": [
+                        {
+                            "name": "0",
+                            "ip": {
+                                "address": {
+                                    "primary": {
+                                        "address": "127.0.0.1",
+                                        "mask": "255.0.0.0"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "name": "1100",
+                            "ip": {
+                                "address": {
+                                    "primary": {
+                                        "address": "10.100.0.11",
+                                        "mask": "255.255.255.255"
+                                    }
+                                }
+                            }
+                        }
+                    ],
+                    "Ethernet": [
+                        {
+                            "name": "0/0/0"
+                        }
+                    ],
+                    "FastEthernet": [
+                        {
+                            "name": "0"
+                        },
+                        {
+                            "name": "0/0"
+                        },
+                        {
+                            "name": "1/0"
+                        },
+                        {
+                            "name": "1/1"
+                        }
+                    ],
+                    "GigabitEthernet": [
+                        {
+                            "name": "0"
+                        },
+                        {
+                            "name": "0/0"
+                        },
+                        {
+                            "name": "0/1",
+                            "description": "By NSO: L3VPN - ACME - Site1",
+                            "vrf": {
+                                "forwarding": "vpn10001"
+                            },
+                            "ip": {
+                                "address": {
+                                    "primary": {
+                                        "address": "172.31.1.1",
+                                        "mask": "255.255.255.252"
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                },
+                "tailf-ned-cisco-ios:router": {
+                    "bgp": [
+                        {
+                            "as-no": 1,
+                            "address-family": {
+                                "with-vrf": {
+                                    "ipv4": [
+                                        {
+                                            "af": "unicast",
+                                            "vrf": [
+                                                {
+                                                    "name": "vpn10001",
+                                                    "redistribute": {
+                                                        "connected": {},
+                                                        "static": {}
+                                                    },
+                                                    "neighbor": [
+                                                        {
+                                                            "id": "172.31.1.2",
+                                                            "remote-as": "65001",
+                                                            "@remote-as": {
+                                                                "annotation": "first"
+                                                            },
+                                                            "activate": [
+                                                                null
+                                                            ],
+                                                            "allowas-in": {},
+                                                            "as-override": {
+                                                                "disable": [
+                                                                    null
+                                                                ]
+                                                            },
+                                                            "default-originate": {}
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                "ietf-yang-library:yang-library": {
+                    "module-set": [
+                        {
+                            "name": "common",
+                            "module": [
+                                {
+                                    "name": "ietf-interfaces",
+                                    "revision": "2014-05-08",
+                                    "namespace": "urn:ietf:params:xml:ns:yang:ietf-interfaces",
+                                    "feature": [
+                                        "arbitrary-names",
+                                        "if-mib",
+                                        "pre-provisioning"
+                                    ]
+                                },
+                                {
+                                    "name": "ietf-ip",
+                                    "revision": "2014-06-16",
+                                    "namespace": "urn:ietf:params:xml:ns:yang:ietf-ip",
+                                    "feature": [
+                                        "ipv4-non-contiguous-netmasks",
+                                        "ipv6-privacy-autoconf"
+                                    ]
+                                },
+                                {
+                                    "name": "tailf-ned-cisco-ios",
+                                    "revision": "2022-08-19",
+                                    "namespace": "urn:ios"
+                                },
+                                {
+                                    "name": "tailf-ned-cisco-ios-stats",
+                                    "namespace": "urn:ios-stats"
+                                }
+                            ],
+                            "import-only-module": [
+                                {
+                                    "name": "cliparser-extensions-v11",
+                                    "revision": "",
+                                    "namespace": "http://tail-f.com/ned/cliparser_v11"
+                                },
+                                {
+                                    "name": "tailf-ned-cisco-ios-id",
+                                    "revision": "",
+                                    "namespace": "urn:ios-id"
+                                }
+                            ]
+                        }
+                    ],
+                    "schema": [
+                        {
+                            "name": "common",
+                            "module-set": [
+                                "common"
+                            ]
+                        }
+                    ],
+                    "datastore": [
+                        {
+                            "name": "ietf-datastores:running",
+                            "schema": "common"
+                        },
+                        {
+                            "name": "ietf-datastores:intended",
+                            "schema": "common"
+                        },
+                        {
+                            "name": "ietf-datastores:operational",
+                            "schema": "common"
+                        }
+                    ],
+                    "content-id": "2ade5f9d99cb775738d7df4112ef7096"
+                },
+                "ietf-yang-library:modules-state": {
+                    "module-set-id": "2ade5f9d99cb775738d7df4112ef7096",
+                    "module": [
+                        {
+                            "name": "cliparser-extensions-v11",
+                            "revision": "",
+                            "namespace": "http://tail-f.com/ned/cliparser_v11",
+                            "conformance-type": "import"
+                        },
+                        {
+                            "name": "ietf-interfaces",
+                            "revision": "2014-05-08",
+                            "namespace": "urn:ietf:params:xml:ns:yang:ietf-interfaces",
+                            "feature": [
+                                "arbitrary-names",
+                                "if-mib",
+                                "pre-provisioning"
+                            ],
+                            "conformance-type": "implement"
+                        },
+                        {
+                            "name": "ietf-ip",
+                            "revision": "2014-06-16",
+                            "namespace": "urn:ietf:params:xml:ns:yang:ietf-ip",
+                            "feature": [
+                                "ipv4-non-contiguous-netmasks",
+                                "ipv6-privacy-autoconf"
+                            ],
+                            "conformance-type": "implement"
+                        },
+                        {
+                            "name": "tailf-ned-cisco-ios",
+                            "revision": "2022-08-19",
+                            "namespace": "urn:ios",
+                            "conformance-type": "implement"
+                        },
+                        {
+                            "name": "tailf-ned-cisco-ios-id",
+                            "revision": "",
+                            "namespace": "urn:ios-id",
+                            "conformance-type": "import"
+                        },
+                        {
+                            "name": "tailf-ned-cisco-ios-stats",
+                            "revision": "",
+                            "namespace": "urn:ios-stats",
+                            "conformance-type": "implement"
+                        }
+                    ]
+                }
+            },
+            "live-status": {
+                "ietf-yang-library:yang-library": {
+                    "module-set": [
+                        {
+                            "name": "common",
+                            "module": [
+                                {
+                                    "name": "ietf-interfaces",
+                                    "revision": "2014-05-08",
+                                    "namespace": "urn:ietf:params:xml:ns:yang:ietf-interfaces",
+                                    "feature": [
+                                        "arbitrary-names",
+                                        "if-mib",
+                                        "pre-provisioning"
+                                    ]
+                                },
+                                {
+                                    "name": "ietf-ip",
+                                    "revision": "2014-06-16",
+                                    "namespace": "urn:ietf:params:xml:ns:yang:ietf-ip",
+                                    "feature": [
+                                        "ipv4-non-contiguous-netmasks",
+                                        "ipv6-privacy-autoconf"
+                                    ]
+                                },
+                                {
+                                    "name": "tailf-ned-cisco-ios",
+                                    "revision": "2022-08-19",
+                                    "namespace": "urn:ios"
+                                },
+                                {
+                                    "name": "tailf-ned-cisco-ios-stats",
+                                    "namespace": "urn:ios-stats"
+                                },
+                                {
+                                    "name": "tailf-ncs-cli-ned-notification",
+                                    "namespace": "http://tail-f.com/ns/ncs-ned/notification/1.0"
+                                }
+                            ],
+                            "import-only-module": [
+                                {
+                                    "name": "cliparser-extensions-v11",
+                                    "revision": "",
+                                    "namespace": "http://tail-f.com/ned/cliparser_v11"
+                                },
+                                {
+                                    "name": "tailf-ned-cisco-ios-id",
+                                    "revision": "",
+                                    "namespace": "urn:ios-id"
+                                }
+                            ]
+                        }
+                    ],
+                    "schema": [
+                        {
+                            "name": "common",
+                            "module-set": [
+                                "common"
+                            ]
+                        }
+                    ],
+                    "datastore": [
+                        {
+                            "name": "ietf-datastores:running",
+                            "schema": "common"
+                        },
+                        {
+                            "name": "ietf-datastores:intended",
+                            "schema": "common"
+                        },
+                        {
+                            "name": "ietf-datastores:operational",
+                            "schema": "common"
+                        }
+                    ],
+                    "content-id": "a8746bafc252c64fb21f105a46355882"
+                },
+                "ietf-yang-library:modules-state": {
+                    "module-set-id": "a8746bafc252c64fb21f105a46355882",
+                    "module": [
+                        {
+                            "name": "cliparser-extensions-v11",
+                            "revision": "",
+                            "namespace": "http://tail-f.com/ned/cliparser_v11",
+                            "conformance-type": "import"
+                        },
+                        {
+                            "name": "ietf-interfaces",
+                            "revision": "2014-05-08",
+                            "namespace": "urn:ietf:params:xml:ns:yang:ietf-interfaces",
+                            "feature": [
+                                "arbitrary-names",
+                                "if-mib",
+                                "pre-provisioning"
+                            ],
+                            "conformance-type": "implement"
+                        },
+                        {
+                            "name": "ietf-ip",
+                            "revision": "2014-06-16",
+                            "namespace": "urn:ietf:params:xml:ns:yang:ietf-ip",
+                            "feature": [
+                                "ipv4-non-contiguous-netmasks",
+                                "ipv6-privacy-autoconf"
+                            ],
+                            "conformance-type": "implement"
+                        },
+                        {
+                            "name": "tailf-ned-cisco-ios",
+                            "revision": "2022-08-19",
+                            "namespace": "urn:ios",
+                            "conformance-type": "implement"
+                        },
+                        {
+                            "name": "tailf-ned-cisco-ios-id",
+                            "revision": "",
+                            "namespace": "urn:ios-id",
+                            "conformance-type": "import"
+                        },
+                        {
+                            "name": "tailf-ned-cisco-ios-stats",
+                            "revision": "",
+                            "namespace": "urn:ios-stats",
+                            "conformance-type": "implement"
+                        },
+                        {
+                            "name": "tailf-ncs-cli-ned-notification",
+                            "revision": "",
+                            "namespace": "http://tail-f.com/ns/ncs-ned/notification/1.0",
+                            "conformance-type": "implement"
+                        }
+                    ]
+                }
+            },
+            "service-list": [
+                "/ncs:services/l3vpn:l3vpn{ACME}",
+                "/ncs:services/loopback:loopback{OSPF}"
+            ],
+            "tailf-ncs-alarms:alarm-summary": {
+                "indeterminates": 0,
+                "criticals": 0,
+                "majors": 0,
+                "minors": 0,
+                "warnings": 0
+            }
+        }
+    ]
+}

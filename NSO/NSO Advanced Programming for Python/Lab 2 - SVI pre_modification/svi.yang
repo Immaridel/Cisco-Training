@@ -1,0 +1,89 @@
+module svi {
+  namespace "http://example.com/svi";
+  prefix svi;
+
+  import ietf-inet-types {
+    prefix inet;
+  }
+  import tailf-common {
+    prefix tailf;
+  }
+  import tailf-ncs {
+    prefix ncs;
+  }
+
+  description
+    "YANG model for SVI service";
+
+  revision 2020-07-21 {
+    description
+      "Initial revision.";
+  }
+
+  augment "/ncs:services" {
+
+    list svi {
+      key "name";
+
+      leaf name {
+        tailf:info "Unique service id";
+        tailf:cli-allow-range;
+        type string;
+      }
+      uses ncs:service-data;
+      ncs:servicepoint "svi-servicepoint";
+
+      list device {
+        tailf:info "L3 switch";
+        key "name";
+
+        leaf name {
+          tailf:info "Device name";
+          type leafref {
+            path "/ncs:devices/ncs:device/ncs:name";
+          }
+          must "starts-with(current(),'SW')" {
+            error-message "Only SW devices can be selected.";
+          }
+        }
+
+        leaf ip-prefix {
+          tailf:info "Unique IPv4 prefix for VLAN. Device with ip-prefix configured will serve as gateway.";
+          type inet:ipv4-prefix;
+          // Only one device can have ip-prefix configured
+          when "count(../../device[name != current()/../name]/ip-prefix)=0";
+        }
+
+        list interface {
+          tailf:info "Ethernet interface";
+          key "intf-type intf-id";
+
+          leaf intf-type {
+            tailf:info "Ethernet interface type";
+            type enumeration {
+              enum Ethernet;
+              enum FastEthernet;
+              enum GigabitEthernet;
+            }
+          }
+
+          leaf intf-id {
+            tailf:info "Ethernet interface ID";
+            type string;
+          }
+        }
+      }
+    }
+  }
+  augment "/ncs:services" {
+    leaf vlan-id-cnt {
+      description
+        "Provides a unique number used as VLAN identifier";
+      tailf:hidden "Counter";
+      type uint32 {
+        range "2..4096";
+      }
+      default "2";
+    }
+  }
+}

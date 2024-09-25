@@ -1,0 +1,53 @@
+module loopback {
+  namespace "http://cisco.com/example/loopback";
+  prefix loopback;
+
+  import ietf-inet-types {
+    prefix inet;
+  }
+  import tailf-ncs {
+    prefix ncs;
+  }
+  import tailf-common {
+    prefix tailf;
+  }
+
+  augment /ncs:services {
+    list loopback {
+      tailf:info "Loopback Service";
+      key name;
+
+      uses ncs:service-data;
+      ncs:servicepoint "loopback";
+
+      leaf name {
+        tailf:info "Service Instance Name";
+        type string;
+      }
+
+      leaf device {
+        tailf:info "Router name";
+        mandatory true;
+        type leafref {
+          path "/ncs:devices/ncs:device/ncs:name";
+        }
+      }
+
+      leaf loopback-intf {
+        tailf:info "Loopback Interface Number from 1100 to 1199";
+        mandatory true;
+        type uint32 {
+          range "1100..1199";
+        }
+      }
+
+      leaf ip-address {
+        tailf:info "Valid IP range from 10.100.x.x to 10.199.x.x";
+        mandatory true;
+        type inet:ipv4-address {
+          pattern "10.1[0-9][0-9].[0-9]+.[0-9]+";
+        }
+      }
+    }
+  }
+}

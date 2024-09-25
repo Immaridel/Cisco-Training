@@ -1,0 +1,116 @@
+module firewall {
+
+  namespace "http://example.com/firewall";
+  prefix firewall;
+
+  import ietf-inet-types {
+    prefix inet;
+  }
+  import tailf-common {
+    prefix tailf;
+  }
+  import tailf-ncs {
+    prefix ncs;
+  }
+
+  grouping firewall {
+    list access-list-rules {
+      ordered-by user;
+      key name;
+
+      leaf name {
+        type string;
+      }
+      leaf action {
+        mandatory true;
+        type enumeration {
+          enum permit;
+          enum deny;
+        }
+      }
+      leaf protocol {
+        default ip;
+        type enumeration {
+          enum ip;
+          enum tcp;
+          enum udp;
+          enum icmp;
+        }
+      }
+      leaf direction {
+        mandatory true;
+        type enumeration {
+          enum in;
+          enum out;
+        }
+      }
+      leaf interface {
+        mandatory true;
+        type enumeration {
+          enum inside;
+          enum outside;
+          enum management;
+        }
+      }
+      leaf src-ip {
+        mandatory true;
+        type inet:ipv4-address;
+      }
+      leaf src-mask {
+        mandatory true;
+        type inet:ipv4-address;
+      }
+      leaf src-port {
+        when "../protocol = 'tcp' or ../protocol = 'udp'";
+        default any;
+        type union {
+          type uint16;
+          type enumeration {
+            enum any;
+          }
+        }
+      }
+      leaf dest-ip {
+        mandatory true;
+        type inet:ipv4-address;
+      }
+      leaf dest-mask {
+        mandatory true;
+        type inet:ipv4-address;
+      }
+      leaf dest-port {
+        when "../protocol = 'tcp' or ../protocol = 'udp'";
+        default any;
+        type union {
+          type uint16;
+          type enumeration {
+            enum any;
+          }
+        }
+      }
+    }
+  }
+
+  augment /ncs:services {
+
+    list firewall {
+      description "Firewall service";
+      key name;
+
+      leaf name {
+        type string;
+      }
+
+      uses ncs:service-data;
+      ncs:servicepoint firewall-servicepoint;
+
+      leaf device {
+        mandatory true;
+        type leafref {
+          path "/ncs:devices/ncs:device/ncs:name";
+        }
+      }
+      uses firewall;
+    }
+  }
+}
