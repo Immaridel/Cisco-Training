@@ -1,10 +1,13 @@
 # netsim ports
+```
 ncs-netsim list for  /home/student/lab/netsim
 
 name=IOS0 netconf=12022 snmp=11022 ipc=5010 cli=10022 dir=/home/student/lab/netsim/IOS/IOS0
+```
 
 # Add ISO0 to default authgroup with specific port/ned
-# fetch ssh host key and sync-from device to populate CDB
+### fetch ssh host key and sync-from device to populate CDB
+```
 student@nso-server:~/lab$ ncs_cli -C
 
 User student last logged in 2024-09-25T14:43:39.411739+00:00, to nso-server, from 10.0.0.102 using cli-ssh
@@ -32,11 +35,15 @@ sync-result {
     result true
 }
 student@ncs#
+```
 
 # Enable devtools for user within NSO server
+```
 student@ncs# devtools true
+```
 
 # Create new build project using ISO0 device
+```
 student@ncs# config
 student@ncs(config)# netconf-ned-builder project cisco-ios 1.0 device IOS0 local-user admin vendor Cisco
 student@ncs(config-project-cisco-ios/1.0)# commit
@@ -62,10 +69,14 @@ Possible completions:
   tailf-progress                 tailf-rollback                           tailf-tls                          
   tailf-webui                    tailf-xsd-types                          tailf-yang-patch                   
 student@ncs(config-project-cisco-ios/1.0)#
+```
 
 # Add all discovered modules to the active project
+```
 student@ncs(config-project-cisco-ios/1.0)# module * * select
+```
 # Prune unwanted ones one at a time
+```
 student@ncs(config-project-cisco-ios/1.0)# module tailf-acm * deselect 
 student@ncs(config-project-cisco-ios/1.0)# module tailf-tls * deselect 
 student@ncs(config-project-cisco-ios/1.0)# module tailf-webui * deselect 
@@ -73,11 +84,15 @@ student@ncs(config-project-cisco-ios/1.0)# module ietf-yang-push * deselect
 student@ncs(config-project-cisco-ios/1.0)# module ietf-yang-push-deviation * deselect 
 student@ncs(config-project-cisco-ios/1.0)# module ietf-subscribed-notifications * deselect
 student@ncs(config-project-cisco-ios/1.0)# module ietf-subscribed-notifications-deviation * deselect
+```
 
 # build the NED (takes a couple minutes)
+```
 student@ncs(config-project-cisco-ios/1.0)# build-ned
+```
 
 # Copy new NED package into working packags directory
+```
 student@nso-server:~/lab$ cd
 student@nso-server:~$ cp -r ncs-6.1-cisco-ios-nc-1.0.tar.gz /var/opt/ncs/packages/
 student@nso-server:~$ ncs_cli -C
@@ -93,29 +108,32 @@ reload-result {
     package cisco-ios-nc-1.0
     result true
 }
+```
 
 # Change IOS0 to the new NED type
+```
 student@ncs# config
 Entering configuration mode terminal
 student@ncs(config)# devices device IOS0
-student@ncs(config-device-IOS0)# device-type neconf
-                                             ^
-% Invalid input detected at '^' marker.
 student@ncs(config-device-IOS0)# device-type netconf ned-id cisco-ios-nc-1.0 
 student@ncs(config-device-IOS0)# commit
 Commit complete.
 student@ncs(config-device-IOS0)# top
 student@ncs(config)#
+```
 
 # Create static route for IOS0
+```
 student@ncs(config)# devices device IOS0 config ip route 10.100.0.0 255.255.0.0 1.0.0.1
 student@ncs(config-config)# commit
 Commit complete.
 student@ncs(config-config)# top
 student@ncs(config)# 
 student@ncs# 
+```
 
 # Connect directly to IOS0 to validate static route
+```
 student@nso-server:~$ ssh admin@127.0.0.1 -p 10022
 admin@127.0.0.1's password: 
 
@@ -134,3 +152,4 @@ ip route 10.100.0.0 255.255.0.0 1.0.0.1
 no ipv6 cef
 no dot11 syslog
 interface Loopback0
+```

@@ -1,4 +1,5 @@
-## make service RFS package
+# make service RFS package
+```
 student@nso-server:~/nso-lsa/nso-rfs$ make dev-shell
 docker run -it -v $(pwd):/src nso303.gitlab.local/cisco-nso-dev:6.1
 root@ee649c8a76b1:/# cd src/packages/
@@ -31,23 +32,33 @@ changed ownership of 'l3vpn-rfs/src' from root:root to 1000:1000
 changed ownership of 'l3vpn-rfs/' from root:root to 1000:1000
 root@ee649c8a76b1:/src/packages# logout
 student@nso-server:~/nso-lsa/nso-rfs$
+```
 
 # Replace empty yang model with Monolithic service original yang file
+```
 student@nso-server:~/nso-lsa/nso-rfs$ cp -r ~/packages/l3vpn/src/yang/l3vpn.yang packages/l3vpn-rfs/src/yang/l3vpn-rfs.yang
+```
 
 # Rename l3vpn to l3vpn-rfs
+```
 vim packages/l3vpn-rfs/src/yang/l3vpn-rfs.yang
-    run ':%s/l3vpn/l3vpn-rfs/g'
+```
+run `':%s/l3vpn/l3vpn-rfs/g'`
 
 # Copy Template and main.py from old Monolithic service to new RFS service
+```
 student@nso-server:~/nso-lsa/nso-rfs$ cp ~/packages/l3vpn/templates/l3vpn-template.xml packages/l3vpn-rfs/templates/l3vpn-rfs-template.xml 
 student@nso-server:~/nso-lsa/nso-rfs$ cp ~/packages/l3vpn/python/l3vpn/main.py packages/l3vpn-rfs/python/l3vpn_rfs/main.py 
 
+```
 # Rename l3vpn to l3vpn-rfs
+```
 vim packages/l3vpn-rfs/python/l3vpn_rfs/main.py
-    run ':%s/l3vpn/l3vpn-rfs/g'
+```
+run `':%s/l3vpn/l3vpn-rfs/g'`
 
 # Build
+```
 student@nso-server:~/nso-lsa/nso-rfs$ make testenv-build 
 for NSO in $(docker ps --format '{{.Names}}' --filter label=testenv-nso-rfs-6.1-student --filter label=nidtype=nso); do \
 	echo "-- Rebuilding for NSO: ${NSO}"; \
@@ -86,8 +97,10 @@ reload-result {
     package l3vpn-rfs
     result true
 }
+```
 
-## Make cfs NED
+# Make cfs NED
+```
 student@nso-server:~/nso-lsa/nso-rfs$ cp -r packages/l3vpn-rfs/ ../nso-cfs/packages/
 student@nso-server:~/nso-lsa/nso-rfs$ cd ../nso-cfs/
 student@nso-server:~/nso-lsa/nso-cfs$ make dev-shell
@@ -120,8 +133,10 @@ reload-result {
     package l3vpn-rfs-ned
     result true
 }
+```
 
 ## Create l3vpn-cfs Package
+```
 student@nso-server:~/nso-lsa/nso-cfs$ make dev-shell
 docker run -it -v $(pwd):/src nso303.gitlab.local/cisco-nso-dev:6.1
 root@e59870190e92:/# cd src/packages/
@@ -153,12 +168,16 @@ changed ownership of 'l3vpn-cfs/src/Makefile' from root:root to 1000:1000
 changed ownership of 'l3vpn-cfs/src' from root:root to 1000:1000
 changed ownership of 'l3vpn-cfs/' from root:root to 1000:1000
 root@e59870190e92:/src/packages#
+```
 
-
-# vim packages/l3vpn-cfs/python/l3vpn_cfs/main.py
-:%s/l3vpn/l3vpn-cfs/g
+# Edit l3vpn_cfs/main.py
+``` 
+vim packages/l3vpn-cfs/python/l3vpn_cfs/main.py
+```
+run `:%s/l3vpn/l3vpn-cfs/g`
 
 # Copy Template to CFS Service directory
+```
 student@nso-server:~/nso-lsa/nso-cfs$ cat packages/l3vpn-cfs/templates/l3vpn-cfs-template.xml 
 <config-template xmlns="http://tail-f.com/ns/config/1.0">
   <devices xmlns="http://tail-f.com/ns/ncs">
@@ -180,7 +199,8 @@ student@nso-server:~/nso-lsa/nso-cfs$ cat packages/l3vpn-cfs/templates/l3vpn-cfs
     </device>
   </devices>
 </config-template>
-
+```
+```
 student@nso-server:~/nso-lsa/nso-cfs$ cp -r ~/packages/l3vpn-cfs/templates/l3vpn-cfs-template.xml packages/l3vpn-cfs/templates/l3vpn-cfs-template.xml
 
 student@nso-server:~/nso-lsa/nso-cfs$ cat packages/l3vpn-cfs/templates/l3vpn-cfs-template.xml 
@@ -203,7 +223,8 @@ student@nso-server:~/nso-lsa/nso-cfs$ cat packages/l3vpn-cfs/templates/l3vpn-cfs
     </device>
   </devices>
 </config-template>
-
+```
+```
 student@nso-server:~/nso-lsa/nso-cfs$ cp ~/packages/l3vpn-cfs/python/l3vpn_cfs/main.py packages/l3vpn-cfs/python/l3vpn_cfs/main.py 
 student@nso-server:~/nso-lsa/nso-cfs$ vim packages/l3vpn-cfs/python/l3vpn_cfs/main.py
 student@nso-server:~/nso-lsa/nso-cfs$ make testenv-build 
@@ -230,3 +251,4 @@ reload-result {
     package l3vpn-rfs-ned
     result true
 }
+```

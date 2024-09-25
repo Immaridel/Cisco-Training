@@ -1,6 +1,7 @@
 # Add EMEA and AM RFS devices
-# Modify ssh-algorithms to add 'ssh-dss' support for older devices
-# add ssh-rsa ssh-dss
+### Modify ssh-algorithms to add 'ssh-dss' support for older devices
+### add ssh-rsa ssh-dss
+```
 student@nso-server:~/nso-lsa/nso-cfs$ make testenv-cli
 docker exec -it testenv-nso-cfs-6.1-student-nso bash -lc 'ncs_cli -Cu admin'
 
@@ -20,8 +21,10 @@ admin@ncs(config-device-NSO-RFS-EMEA)# top
 admin@ncs(config)# commit
 Commit complete.
 admin@ncs(config)# 
+```
 
 # Fetch Keys & dispatch-map
+```
 admin@ncs# devices fetch-ssh-host-keys
 fetch-result {
     device NSO-RFS-AM
@@ -54,8 +57,10 @@ admin@ncs(config)# dispatch-map AMNSO-RFS-AM
 admin@ncs(config)# dispatch-map EMEA NSO-RFS-EMEA
 admin@ncs(config)# commit
 Commit complete.
+```
 
 # Configure dispatch-map and create VPN using template
+```
 admin@ncs# config
 Entering configuration mode terminal
 admin@ncs(config)# dispatch-map AM NSO-RFS-AM    
@@ -74,8 +79,10 @@ admin@ncs#
 student@nso-server:~/nso-lsa/nso-cfs$ cd ../nso-rfs/
 student@nso-server:~/nso-lsa/nso-rfs$ make testenv-cli NSO=am
 docker exec -it testenv-nso-rfs-6.1-student-nso-am bash -lc 'ncs_cli -Cu admin'
+```
 
-# Validate created BGP configuration 
+# Validate created BGP configuration
+```
 User admin last logged in 2024-09-24T17:37:03.087558+00:00, to 2a6444447ec3, from 172.21.0.2 using netconf-ssh
 admin connected from 127.0.0.1 using console on 2a6444447ec3
 admin@ncs-am# show running-config devices device CE11-AM config router bgp
@@ -90,8 +97,10 @@ devices device CE11-AM
  !
 !
 admin@ncs-am#
+```
 
 # SSH device and confirm running configuration
+```
 student@nso-server:~/nso-lsa/nso-rfs$ make testenv-shell NSO=am
 docker exec -it testenv-nso-rfs-6.1-student-nso-am bash -l
 root@2a6444447ec3:/# ssh admin@CE11-AM
@@ -115,3 +124,4 @@ dev#
 dev# exit
 Connection to ce11-am closed.
 root@2a6444447ec3:/# logout
+```

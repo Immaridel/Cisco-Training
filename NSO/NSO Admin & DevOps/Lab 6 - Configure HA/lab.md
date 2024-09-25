@@ -1,4 +1,5 @@
 # Configure basic HA on Primray
+```
 student@nso-server:~/nso-ha$ make testenv-cli NSO=primary
 docker exec -it testenv-nso-ha-6.1-student-nso-primary bash -lc 'ncs_cli -Cu admin'
 
@@ -21,8 +22,10 @@ Commit complete.
 admin@ncs-primary(config)# high-availability enable
 result enabled
 admin@ncs-primary(config)# 
+```
 
 # Configure basic HA on Secondary
+```
 student@nso-server:~/nso-ha$ make testenv-cli NSO=secondary
 docker exec -it testenv-nso-ha-6.1-student-nso-secondary bash -lc 'ncs_cli -Cu admin'
 
@@ -66,8 +69,10 @@ high-availability settings start-up assume-nominal-role true
 high-availability settings start-up join-ha true
 high-availability settings reconnect-interval 2
 admin@ncs-secondary#
+```
 
 # Check HA status on Primary
+```
 student@nso-server:~/nso-ha$ make testenv-cli NSO=primary
 docker exec -it testenv-nso-ha-6.1-student-nso-primary bash -lc 'ncs_cli -Cu admin'
 
@@ -83,15 +88,19 @@ ID             ADDRESS
 nso-secondary  172.21.0.3  
 
 admin@ncs-primary#
+```
 
 # Test HA replication with customer
+```
 admin@ncs-primary# config
 Entering configuration mode terminal
 admin@ncs-primary(config)# customers customer ACME rank 1 status active 
 admin@ncs-primary(config-customer-ACME)# commit
 Commit complete.
+```
 
 # Display replicated customer status on Secondary
+```
 student@nso-server:~/nso-ha$ make testenv-cli NSO=secondary
 docker exec -it testenv-nso-ha-6.1-student-nso-secondary bash -lc 'ncs_cli -Cu admin'
 
@@ -101,12 +110,16 @@ customers customer ACME
  rank   1
  status active
 !
+```
 
 # Confirm Secondary cannot enter config mode
+```
 admin@ncs-secondary# config
 Aborted: node is in read-only mode
+```
 
 # Configure HA VIP on Primary
+```
 student@nso-server:~/nso-ha$ make testenv-cli NSO=primary
 docker exec -it testenv-nso-ha-6.1-student-nso-primary bash -lc 'ncs_cli -Cu admin'
 
@@ -120,8 +133,10 @@ Commit complete.
 admin@ncs-primary(config)# 
 admin@ncs-primary# 
 student@nso-server:~/nso-ha$ 
+```
 
 # curl rquest example
+```
 student@nso-server:~/nso-ha$ curl -u admin:admin http://192.168.0.100/restconf -v
 *   Trying 192.168.0.100:80...
 * Connected to 192.168.0.100 (192.168.0.100) port 80 (#0)
@@ -152,8 +167,10 @@ student@nso-server:~/nso-ha$ curl -u admin:admin http://192.168.0.100/restconf -
   <yang-library-version>2019-01-04</yang-library-version>
 </restconf>
 * Connection #0 to host 192.168.0.100 left intact
+```
 
 # Stop the Primary to force failover
+```
 student@nso-server:~/nso-ha$ docker ps -a
 CONTAINER ID   IMAGE                                        COMMAND             CREATED         STATUS                       PORTS                                                                                                             NAMES
 7d6e3ab82edb   nso303.gitlab.local/nso-ha/nso:6.1-student   "/run-nso.sh"       7 months ago    Up About an hour (healthy)   22/tcp, 80/tcp, 443/tcp, 830/tcp, 4334/tcp                                                                        testenv-nso-ha-6.1-student-nso-secondary
@@ -174,8 +191,10 @@ high-availability status primary-id nso-primary
 high-availability status read-only-mode false
 admin@ncs-secondary# *** ALARM ha-primary-down: Lost connection to primary due to: Primary closed connection
 admin@ncs-secondary#
+```
 
 # Show alarms
+```
 admin@ncs-secondary# show alarms
 alarms summary indeterminates 0
 alarms summary criticals 1
@@ -193,8 +212,10 @@ alarms alarm-list alarm ncs ha-primary-down /high-availability/ha-node[id='nso-p
   received-time      2024-09-24T15:10:25.523132+00:00
   perceived-severity critical
   alarm-text         "Lost connection to primary due to: Primary closed connection"
+```
 
 # Check and start docker Primary container
+```
 student@nso-server:~/nso-ha$ curl -u admin:admin http://192.168.0.100/restconf
 <restconf xmlns="urn:ietf:params:xml:ns:yang:ietf-restconf">
   <data/>
@@ -208,8 +229,10 @@ CONTAINER ID   IMAGE                                        COMMAND             
 5b243c1b17f3   gitlab/gitlab-ee:13.4.0-ee                   "/assets/wrapper"   11 months ago   Up About an hour (healthy)   0.0.0.0:80->80/tcp, :::80->80/tcp, 0.0.0.0:443->443/tcp, :::443->443/tcp, 0.0.0.0:8022->22/tcp, :::8022->22/tcp   gitlab_web_1
 student@nso-server:~/nso-ha$ docker start 48aa033bb5e3
 48aa033bb5e3
+```
 
 # Check HA status on Primary
+```
 student@nso-server:~/nso-ha$ make testenv-cli NSO=primary
 docker exec -it testenv-nso-ha-6.1-student-nso-primary bash -lc 'ncs_cli -Cu admin'
 
@@ -223,13 +246,17 @@ high-availability status be-secondary-result initialized
 high-availability status primary-id nso-secondary
 high-availability status read-only-mode false
 admin@ncs-primary#
+```
 
 # Set Primary back to HA Primary
+```
 admin@ncs-primary# high-availability be-primary 
 result ok
 admin@ncs-primary# 
+```
 
 # Set Secondary back to HA Secondary
+```
 student@nso-server:~/nso-ha$ make testenv-cli NSO=secondary
 docker exec -it testenv-nso-ha-6.1-student-nso-secondary bash -lc 'ncs_cli -Cu admin'
 
@@ -245,3 +272,4 @@ high-availability status be-secondary-result initialized
 high-availability status primary-id nso-primary
 high-availability status read-only-mode false
 admin@ncs-secondary#
+```

@@ -14,7 +14,7 @@ Headers:
     Key:  Accept
     Value:  application/yang-data+json
 
-
+```
 {
   "l3vpn:l3vpn": [
     {
@@ -46,6 +46,7 @@ Headers:
     }
   ]
 }
+```
 
 # Post Request
 Change URI to Parent: http://nso-server:8080/restconf/data/tailf-ncs:services
@@ -57,6 +58,7 @@ Go to Headers:
 Click on BODY -> Select RAW
     Paste the below
 
+```
 {
   "l3vpn:l3vpn": [
     {
@@ -82,7 +84,7 @@ Click on BODY -> Select RAW
     }
   ]
 }
-
+```
 Post and ensure 201 response
 
 # Validate New Service Instance
@@ -93,7 +95,7 @@ GET:  http://nso-server:8080/restconf/data/tailf-ncs:services/l3vpn:l3vpn?fields
 Headers: 
     Key:  Accept
     Value:  application/yang-data+json
-
+```
 {
   "l3vpn:l3vpn": [
     {
@@ -136,8 +138,10 @@ Headers:
     }
   ]
 }
+```
 
 # snmp v2c configuration (version parameter not specified)
+```
 student@ncs# show running-config snmp agent
 student@ncs(config)# snmp agent enabled
 student@ncs(config)# snmp agent udp-port 4000
@@ -146,13 +150,17 @@ student@ncs(config)# snmp agent version v2c
 student@ncs(config-community-public)# top
 student@ncs(config)# commit
 Commit complete.
+```
 
 # Validate
+```
 student@nso-server:~$ snmpwalk -v 2c -c public -M /opt/ncs/current/src/ncs/snmp/mibs/ -m TAILF-ALARM-MIB 127.0.0.1:4000 TAILF-TOP-MIB::tfModules
 TAILF-ALARM-MIB::tfAlarmNumber.0 = Gauge32: 0
 TAILF-ALARM-MIB::tfAlarmLastChanged.0 = STRING: 2024-2-1,20:19:21.4,+0:0
+```
 
 # Screw up a device
+```
 student@nso-server:~$ ncs_cli -C
 
 User student last logged in 2024-09-23T20:06:25.976004+00:00, to nso-server, from 127.0.0.1 using cli-ssh
@@ -169,8 +177,10 @@ info Out of sync due to no-networking or failed commit-queue commits
 student@ncs(config)# *** ALARM out-of-sync: Out of sync due to no-networking or failed commit-queue commits
 student@ncs(config)# 
 student@ncs#
+```
 
 # Check screwed up device (tfAlarmCleared.1 = INTEGER: false(2))
+```
 student@nso-server:~$ snmpwalk -v 2c -c public -M /opt/ncs/current/src/ncs/snmp/mibs/ -m TAILF-ALARM-MIB 127.0.0.1:4000 TAILF-TOP-MIB::tfModules
 TAILF-ALARM-MIB::tfAlarmNumber.0 = Gauge32: 1
 TAILF-ALARM-MIB::tfAlarmLastChanged.0 = STRING: 2024-9-23,20:11:58.3,+0:0
@@ -187,8 +197,10 @@ TAILF-ALARM-MIB::tfAlarmTime.1 = STRING: 2024-9-23,20:11:58.3,+0:0
 TAILF-ALARM-MIB::tfAlarmSeverity.1 = INTEGER: major(4)
 TAILF-ALARM-MIB::tfAlarmCleared.1 = INTEGER: false(2)
 TAILF-ALARM-MIB::tfAlarmText.1 = STRING: Out of sync due to no-networking or failed commit-queue commits
+```
 
 # Repair Device
+```
 student@nso-server:~$ ncs_cli -C
 
 User student last logged in 2024-09-23T20:11:05.287863+00:00, to nso-server, from 127.0.0.1 using cli-ssh
@@ -196,8 +208,10 @@ student connected from 127.0.0.1 using ssh on nso-server
 student@ncs# devices device PE11 sync-to
 result true
 student@ncs# exit
+```
 
 # Check again (tfAlarmCleared.1 = INTEGER: true(1))
+```
 student@nso-server:~$ snmpwalk -v 2c -c public -M /opt/ncs/current/src/ncs/snmp/mibs/ -m TAILF-ALARM-MIB 127.0.0.1:4000 TAILF-TOP-MIB::tfModules
 TAILF-ALARM-MIB::tfAlarmNumber.0 = Gauge32: 1
 TAILF-ALARM-MIB::tfAlarmLastChanged.0 = STRING: 2024-9-23,20:12:47.4,+0:0
@@ -214,8 +228,10 @@ TAILF-ALARM-MIB::tfAlarmTime.1 = STRING: 2024-9-23,20:12:47.4,+0:0
 TAILF-ALARM-MIB::tfAlarmSeverity.1 = INTEGER: major(4)
 TAILF-ALARM-MIB::tfAlarmCleared.1 = INTEGER: true(1)
 TAILF-ALARM-MIB::tfAlarmText.1 = STRING: Out of sync due to no-networking or failed commit-queue commits
+```
 
 # Check snmp agent config values
+```
 student@nso-server:~$ ncs_cli -C
 
 User student last logged in 2024-09-23T20:12:35.593585+00:00, to nso-server, from 127.0.0.1 using cli-ssh
@@ -226,3 +242,4 @@ snmp agent ip    0.0.0.0
 snmp agent udp-port 4000
 snmp agent version v2c
 snmp agent max-message-size 50000
+```
