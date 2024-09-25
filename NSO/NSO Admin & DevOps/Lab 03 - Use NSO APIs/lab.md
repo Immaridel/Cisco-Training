@@ -1,9 +1,9 @@
 # RESTCONF Calls
-GET - <get-config>, get
-POST - <edit-config>, create
-PUT - <edit-config>, replace
-PATCH - <edit-config>, merge
-DELETE - <edit-config>, delete
+`GET - <get-config>, get`
+`POST - <edit-config>, create`
+`PUT - <edit-config>, replace`
+`PATCH - <edit-config>, merge`
+`DELETE - <edit-config>, delete`
 
 # GET Request
 Authorization:  Basic Auth
