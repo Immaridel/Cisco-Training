@@ -1,11 +1,11 @@
 # Add oper linux user//groups
-student@nso-server:~$ sudo useradd oper
-student@nso-server:~$ sudo passwd oper
-New password: 
-BAD PASSWORD: The password is shorter than 8 characters
-Retype new password: 
-passwd: password updated successfully
-student@nso-server:~$ sudo usermod -aG ncsoper oper
+  student@nso-server:~$ sudo useradd oper
+  student@nso-server:~$ sudo passwd oper
+  New password: 
+  BAD PASSWORD: The password is shorter than 8 characters
+  Retype new password: 
+  passwd: password updated successfully
+  student@nso-server:~$ sudo usermod -aG ncsoper oper
 
 # Validate running config
 student@nso-server:~$ ncs_cli -C
