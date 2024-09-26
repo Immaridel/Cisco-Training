@@ -1,0 +1,2 @@
+# Blank Notes
+This lab was very specific to the docker-hosted Gitlab environment used on the Linux VM they provided.  As this is very different than how we deploy docker containers, I did not take separate notes as I worked through it.  Consult the PDF directly for information about using a docker registry and deploying containers.
