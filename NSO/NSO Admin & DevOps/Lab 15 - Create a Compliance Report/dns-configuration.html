@@ -1,0 +1,15 @@
+<html><head><style>h1 {margin: 20;} h2 {margin: 0.6em 60 0.6em;} h3 {margin: 0.5em 100 0.5em;} h4,h5,h6 {margin: 0.5em 140 0.5em;} pre,p,table {margin: 0.4em 140 0.4em;}</style></head><body><h1></h1><p>Publication date : 2024-09-26 13:46:11</p><p>Produced by user : student</p><h1>Summary</h1><p>Compliance result titled "" defined by report "DNS_Configuration"</p><p>Resulting in <b>violations</b></p><p>Checking no devices and no services</p><p>Produced 2024-09-26 13:46:11</p><p>From : Oldest available information</p><p>To : 2024-09-26 13:46:11</p><h2>Template discrepancies</h2><h3>DNS_Config</h3><p>Discrepancies in device</p><p>PE11</p><p>PE22</p><h1>Details</h1><h2>Template discrepancies details</h2><h3>DNS_Config</h3><h4>Device PE11</h4><pre> config {
+    domain {
++        # first
++        name-server 10.0.0.50;
++        name-server 10.0.0.51;
+    }
+}
+</pre><h4>Device PE22</h4><pre> config {
+    domain {
++        # first
++        name-server 10.0.0.50;
++        name-server 10.0.0.51;
+    }
+}
+</pre></body></html>
