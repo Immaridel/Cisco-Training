@@ -1,7 +1,7 @@
 # Summary
 This repo contains notes that were taken during training courses hosted by Cisco for the Network Services Orchestrator product.  Below I will give a brief overview of how to use the notes for each class, since they were taken at differnt times and therefore are structured inconsistently based on my mood and coffee ingestion rate.
 
-## [NSO Admin & DevOps](https://github.com/Immaridel/Cisco-Training/tree/main/NSO/NSO Admin %26 DevOps)
+## NSO Admin & DevOps
 Each folder corresponds to a different lab from the class.  Contained in the folder is a PDF of the lab from the class, giving the instructions to follow, and a file called 'lab.md', which contains my personal command input and output from performing the lab tasks.
 
 I made notes where I found need to do so, but for the most part it will likely look much like the example output from the PDF.
